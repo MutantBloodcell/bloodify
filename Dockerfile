@@ -1,4 +1,6 @@
 # syntax=docker/dockerfile:1.6
+FROM alpine/git AS bindings
+RUN git clone --depth=1 https://github.com/MutantBloodcell/bindings
 
 FROM ghcr.io/geode-sdk/tools:android-latest AS build-android32
 

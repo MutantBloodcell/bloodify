@@ -24,14 +24,6 @@ jobs:
             target: export-android32
           - platform: android64
             target: export-android64
-          - platform: ios
-            target: export-ios
-          - platform: macm1
-            target: export-macm1
-          - platform: macintel
-            target: export-macintel
-          - platform: win
-            target: export-win
 
     steps:
       - name: Checkout
@@ -100,10 +92,6 @@ jobs:
             android64)
               test -f out/android64/Geode.android64.so
               ;;
-            win)
-              test -f out/win/Geode.dll
-              test -f out/win/GeodeUpdater.exe
-              ;;
           esac
 
       - name: Upload platform artifacts
@@ -133,29 +121,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Download Windows binaries
-        if: matrix.installer == 'win' || matrix.installer == 'linux'
-        uses: actions/download-artifact@v4
-        with:
-          name: geode-win
-          path: bin/nightly
-
-      - name: Build Windows installer
-        if: matrix.installer == 'win'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends nsis
-          makensis -WX -V3 ./installer/windows/installer.nsi
-
-      - name: Upload Windows installer
-        if: matrix.installer == 'win'
-        uses: actions/upload-artifact@v4
-        with:
-          name: geode-installer-win
-          path: installer/windows/geode-installer-win.exe
-          if-no-files-found: error
-          retention-days: 7
-
   publish:
     name: Publish nightly
     runs-on: ubuntu-latest
@@ -172,10 +137,6 @@ jobs:
           echo "version=$(cat VERSION | xargs)" >> "$GITHUB_OUTPUT"
           echo "hash=$(git rev-parse --short "$GITHUB_SHA")" >> "$GITHUB_OUTPUT"
 
-      - uses: actions/download-artifact@v4
-        with:
-          name: geode-win
-          path: artifacts/geode-win
 
       - uses: actions/download-artifact@v4
         with:
@@ -187,20 +148,6 @@ jobs:
           name: geode-android64
           path: artifacts/geode-android64
 
-      - uses: actions/download-artifact@v4
-        with:
-          name: geode-installer-win
-          path: artifacts/geode-installer-win
-
-      - name: Prepare installer filenames
-        run: |
-          mv artifacts/geode-installer-win/geode-installer-win.exe \
-            "geode-installer-${{ steps.ref.outputs.hash }}-win.exe"
-      - name: Zip Windows artifacts
-        run: |
-          cd artifacts/geode-win
-          zip -j "../../geode-${{ steps.ref.outputs.hash }}-win.zip" \
-            XInput1_4.dll Geode.dll GeodeUpdater.exe Geode.lib Geode.pdb
 
       - name: Zip Android 32-bit artifacts
         run: |
@@ -230,8 +177,6 @@ jobs:
             Geode development release for commit ${{ github.sha }}.
             Since this is not a regular release, Geode will not install the resources automatically, so you should use the installer if you want them.
           files: |
-            ./geode-installer-${{ steps.ref.outputs.hash }}-win.exe
-            ./geode-${{ steps.ref.outputs.hash }}-win.zip
             ./geode-${{ steps.ref.outputs.hash }}-android32.zip
             ./geode-${{ steps.ref.outputs.hash }}-android64.zip
             ./resources.zip

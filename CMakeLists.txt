@@ -230,8 +230,8 @@ include(cmake/AIAgentDetection.cmake)
 # end GEODE_GD_VERSION
 
 if (NOT DEFINED GEODE_GD_VERSION)
-	set(GEODE_GD_VERSION 2.2091 CACHE INTERNAL "Geode GD Version")
-	set(GEODE_COMP_GD_VERSION 22091 CACHE INTERNAL "Geode Comparable GD Version")
+	set(GEODE_GD_VERSION 1.0.101 CACHE INTERNAL "Geode GD Version")
+	set(GEODE_COMP_GD_VERSION 10101 CACHE INTERNAL "Geode Comparable GD Version")
 endif()
 
 target_compile_definitions(

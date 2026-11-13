@@ -82,7 +82,7 @@ jobs:
           cache-from: type=gha,scope=geode-${{ matrix.platform }}
           cache-to: type=gha,mode=max,scope=geode-${{ matrix.platform }}
           build-contexts: |
-            bindings=https://github.com/geode-sdk/bindings.git#main
+            bindings=https://github.com/MutantBloodcell/bindings.git#main
           # keeps bindings's .git/ folder so loader can embed the commit hash
           build-args: |
             BUILDKIT_CONTEXT_KEEP_GIT_DIR=1

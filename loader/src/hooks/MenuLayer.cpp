@@ -417,7 +417,7 @@ struct CustomMenuLayer : Modify<CustomMenuLayer, MenuLayer> {
             "Continue Anyway", "Open Github",
             [this](auto, bool btn2) {
                 if (btn2) {
-                    web::openLinkInBrowser("https://github.com/geode-sdk/geode/releases/latest");
+                    web::openLinkInBrowser("https://github.com/MutantBloodcell/bloodify/releases/latest");
                     file::openFolder(dirs::getGeodeDir() / "update" / "resources");
                     FLAlertLayer::create(
                         "Info",

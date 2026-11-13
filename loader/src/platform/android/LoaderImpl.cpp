@@ -38,11 +38,7 @@ std::string Loader::Impl::getGameVersion() {
         int versionCode = utils::numFromString<int>(res.unwrap()).unwrapOr(0);
 
         switch (versionCode) {
-            case 37: m_gdVersion = "2.200"; break;
-            case 38: m_gdVersion = "2.205"; break;
-            case 39: m_gdVersion = "2.206"; break;
-            case 40: m_gdVersion = "2.2074"; break;
-            case 41: m_gdVersion = "2.2081"; break;
+            case 101: m_gdVersion = "1.0.101"; break;
             default: m_gdVersion = std::to_string(versionCode);
         }
     }
